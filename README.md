@@ -25,7 +25,7 @@ git clone git@github.com:development-tracker-practicum/development-tracker.git
 3. Запустите в терминале контейнеры Docker внутри папки infra:
 ```
 docker compose up
-``` 
+```
 4. Выполните миграции в другом терминале:
 ```
 docker compose exec backend python manage.py migrate
@@ -53,4 +53,3 @@ Backend:
 Frontend:
 - [Sergey Gromov](https://github.com/LoONeyXx)
 - [Pavel](https://github.com/rakleed)
-

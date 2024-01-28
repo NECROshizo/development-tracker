@@ -6,7 +6,6 @@ load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-ng)p(#8i9^&45u8=2c-ah!$=2e$fp@%)so*kv7l5_-)c!skxgq'
 SECRET_KEY = os.getenv('SECRET_KEY', default='secret_key')
 
 DEBUG = False
@@ -21,13 +20,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     'rest_framework',
     'rest_framework.authtoken',
     'djoser',
+    'drf_yasg',
+
     'api.apps.ApiConfig',
     'users.apps.UsersConfig',
     'course.apps.CourseConfig',
-    'drf_yasg',
 ]
 
 MIDDLEWARE = [

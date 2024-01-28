@@ -1,0 +1,37 @@
+[tool.poetry]
+name = "development-tracker"
+version = "0.1.0"
+description = "Трекер развития в рамкая хакатона"
+authors = ["best_team 6"]
+readme = "README.md"
+
+[tool.ruff]
+target-version = "py39"
+line-length = 120
+ignore = ["D"]
+
+[tool.ruff.per-file-ignores]
+"__init__.py" = ["F401"]
+
+[tool.ruff.quotes]
+style = "double"
+
+[tool.ruff.pydoc]
+enable = true
+
+[tool.poetry.dependencies]
+python = "^3.11"
+django = "^5.0.1"
+djangorestframework = "^3.14.0"
+pillow = "^10.2.0"
+python-dotenv = "^1.0.1"
+djoser = "^2.2.2"
+drf-yasg = "^1.21.7"
+
+[tool.poetry.group.dev.dependencies]
+pre-commit = "^3.6.0"
+ruff = "^0.1.14"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
