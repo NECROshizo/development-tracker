@@ -1,7 +1,6 @@
 from django.contrib import admin
 
-from .models import (Course, Level, LevelSkill, Links, Modul, Pract, Skill,
-                     Theme, UserCourse, UserLevel)
+from .models import Course, Level, LevelSkill, Links, Modul, Pract, Skill, Theme, UserCourse, UserLevel
 
 admin.site.register(UserLevel)
 admin.site.register(LevelSkill)

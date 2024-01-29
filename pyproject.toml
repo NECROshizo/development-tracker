@@ -6,18 +6,30 @@ authors = ["best_team 6"]
 readme = "README.md"
 
 [tool.ruff]
+exclude = [
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".git-rewrite",
+    ".mypy_cache",
+    ".pytest_cache",
+    ".pytype",
+    ".ruff_cache",
+    ".venv",
+    ".vscode",
+    "venv",
+    "frontendruff",
+    "migrations",
+]
 target-version = "py39"
 line-length = 120
 ignore = ["D"]
 
-[tool.ruff.per-file-ignores]
-"__init__.py" = ["F401"]
-
-[tool.ruff.quotes]
-style = "double"
-
-[tool.ruff.pydoc]
-enable = true
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "tab"
+docstring-code-format = true
 
 [tool.poetry.dependencies]
 python = "^3.11"
