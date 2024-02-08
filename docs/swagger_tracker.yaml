@@ -1,0 +1,835 @@
+swagger: '2.0'
+info:
+  title: Development tracker API
+  description: Документация для проекта Трекер развития
+  contact:
+    email: admin@admin.com
+  license:
+    name: BSD License
+  version: v1
+host: localhost:8000
+schemes:
+- http
+basePath: /api/v1
+consumes:
+- application/json
+produces:
+- application/json
+securityDefinitions:
+  Basic:
+    type: basic
+security:
+- Basic: []
+paths:
+  /auth/token/login/:
+    post:
+      operationId: auth_token_login_create
+      description: Use this endpoint to obtain user authentication token.
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/TokenCreate'
+      responses:
+        '201':
+          description: ''
+          schema:
+            $ref: '#/definitions/TokenCreate'
+      tags:
+      - auth
+    parameters: []
+  /auth/token/logout/:
+    post:
+      operationId: auth_token_logout_create
+      description: Use this endpoint to logout user (remove user authentication token).
+      parameters: []
+      responses:
+        '201':
+          description: ''
+      tags:
+      - auth
+    parameters: []
+  /tracker/:
+    get:
+      operationId: tracker_list
+      summary: Список навыков пользователя
+      description: Выводит параметры профиля пользователя.
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/UserLevel'
+      tags:
+      - tracker
+    parameters: []
+  /tracker/{id}/:
+    get:
+      operationId: tracker_read
+      description: Вьюсет трекера развития.
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/UserLevel'
+      tags:
+      - tracker
+    patch:
+      operationId: tracker_partial_update
+      summary: Редактирование парамеров пользователя
+      description: 'Позваляет отредактировать параметры: профессия и грейт'
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/UserLevel'
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/UserLevel'
+      tags:
+      - tracker
+    parameters:
+    - name: id
+      in: path
+      description: A unique integer value identifying this Направление пользователя.
+      required: true
+      type: integer
+  /tracker/{user_id}/recommendations/:
+    get:
+      operationId: tracker_recommendations_list
+      summary: Список рекомендаций для пользователя
+      description: Выводит рекомендации для пользователя трекера.
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/UserCourse'
+      tags:
+      - tracker
+    parameters:
+    - name: user_id
+      in: path
+      required: true
+      type: string
+  /tracker/{user_id}/recommendations/{id}/:
+    get:
+      operationId: tracker_recommendations_read
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/UserCourse'
+      tags:
+      - tracker
+    parameters:
+    - name: user_id
+      in: path
+      required: true
+      type: string
+    - name: id
+      in: path
+      description: A unique integer value identifying this Рекомендация.
+      required: true
+      type: integer
+  /users/:
+    get:
+      operationId: users_list
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/User'
+      tags:
+      - users
+    post:
+      operationId: users_create
+      description: ''
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/UserCreate'
+      responses:
+        '201':
+          description: ''
+          schema:
+            $ref: '#/definitions/UserCreate'
+      tags:
+      - users
+    parameters: []
+  /users/activation/:
+    post:
+      operationId: users_activation
+      description: ''
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/Activation'
+      responses:
+        '201':
+          description: ''
+          schema:
+            $ref: '#/definitions/Activation'
+      tags:
+      - users
+    parameters: []
+  /users/me/:
+    get:
+      operationId: users_me_read
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/User'
+      tags:
+      - users
+    put:
+      operationId: users_me_update
+      description: ''
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/User'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/User'
+      tags:
+      - users
+    patch:
+      operationId: users_me_partial_update
+      description: ''
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/User'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/User'
+      tags:
+      - users
+    delete:
+      operationId: users_me_delete
+      description: ''
+      parameters: []
+      responses:
+        '204':
+          description: ''
+      tags:
+      - users
+    parameters: []
+  /users/resend_activation/:
+    post:
+      operationId: users_resend_activation
+      description: ''
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/SendEmailReset'
+      responses:
+        '201':
+          description: ''
+          schema:
+            $ref: '#/definitions/SendEmailReset'
+      tags:
+      - users
+    parameters: []
+  /users/reset_email/:
+    post:
+      operationId: users_reset_username
+      description: ''
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/SendEmailReset'
+      responses:
+        '201':
+          description: ''
+          schema:
+            $ref: '#/definitions/SendEmailReset'
+      tags:
+      - users
+    parameters: []
+  /users/reset_email_confirm/:
+    post:
+      operationId: users_reset_username_confirm
+      description: ''
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/UsernameResetConfirm'
+      responses:
+        '201':
+          description: ''
+          schema:
+            $ref: '#/definitions/UsernameResetConfirm'
+      tags:
+      - users
+    parameters: []
+  /users/reset_password/:
+    post:
+      operationId: users_reset_password
+      description: ''
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/SendEmailReset'
+      responses:
+        '201':
+          description: ''
+          schema:
+            $ref: '#/definitions/SendEmailReset'
+      tags:
+      - users
+    parameters: []
+  /users/reset_password_confirm/:
+    post:
+      operationId: users_reset_password_confirm
+      description: ''
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/PasswordResetConfirm'
+      responses:
+        '201':
+          description: ''
+          schema:
+            $ref: '#/definitions/PasswordResetConfirm'
+      tags:
+      - users
+    parameters: []
+  /users/set_email/:
+    post:
+      operationId: users_set_username
+      description: ''
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/SetUsername'
+      responses:
+        '201':
+          description: ''
+          schema:
+            $ref: '#/definitions/SetUsername'
+      tags:
+      - users
+    parameters: []
+  /users/set_password/:
+    post:
+      operationId: users_set_password
+      description: ''
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/SetPassword'
+      responses:
+        '201':
+          description: ''
+          schema:
+            $ref: '#/definitions/SetPassword'
+      tags:
+      - users
+    parameters: []
+  /users/{id}/:
+    get:
+      operationId: users_read
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/User'
+      tags:
+      - users
+    put:
+      operationId: users_update
+      description: ''
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/User'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/User'
+      tags:
+      - users
+    patch:
+      operationId: users_partial_update
+      description: ''
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/User'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/User'
+      tags:
+      - users
+    delete:
+      operationId: users_delete
+      description: ''
+      parameters: []
+      responses:
+        '204':
+          description: ''
+      tags:
+      - users
+    parameters:
+    - name: id
+      in: path
+      description: A unique integer value identifying this Пользователь.
+      required: true
+      type: integer
+definitions:
+  TokenCreate:
+    type: object
+    properties:
+      password:
+        title: Password
+        type: string
+        minLength: 1
+      email:
+        title: Email
+        type: string
+        minLength: 1
+  CustomUser:
+    required:
+    - email
+    - username
+    type: object
+    properties:
+      id:
+        title: ID
+        type: integer
+        readOnly: true
+      email:
+        title: Адрес электронной почты
+        type: string
+        format: email
+        maxLength: 254
+        minLength: 1
+      username:
+        title: Имя пользователя
+        description: Обязательное поле. Не более 150 символов. Только буквы, цифры
+          и символы @/./+/-/_.
+        type: string
+        pattern: ^[\w.@+-]+$
+        maxLength: 150
+        minLength: 1
+      first_name:
+        title: Имя
+        type: string
+        maxLength: 150
+      last_name:
+        title: Фамилия
+        type: string
+        maxLength: 150
+  Level:
+    required:
+    - profession
+    - level
+    type: object
+    properties:
+      profession:
+        title: Профессия
+        type: string
+        maxLength: 200
+        minLength: 1
+      level:
+        title: Грейт
+        type: string
+        maxLength: 200
+        minLength: 1
+  Skill:
+    required:
+    - name
+    - description
+    - skill_percent
+    type: object
+    properties:
+      id:
+        title: ID
+        type: integer
+        readOnly: true
+      name:
+        title: Навык
+        type: string
+        maxLength: 200
+        minLength: 1
+      description:
+        title: Описание навыка
+        type: string
+        minLength: 1
+      skill_percent:
+        title: Процент навыка
+        type: integer
+        maximum: 100
+        minimum: 0
+  UserLevel:
+    required:
+    - level_id
+    type: object
+    properties:
+      id:
+        title: ID
+        type: integer
+        readOnly: true
+      user_id:
+        $ref: '#/definitions/CustomUser'
+      level_id:
+        $ref: '#/definitions/Level'
+      skill_id:
+        type: array
+        items:
+          $ref: '#/definitions/Skill'
+        readOnly: true
+      goal:
+        title: Цель
+        type: boolean
+      value:
+        title: Value
+        type: string
+        readOnly: true
+  Theme:
+    required:
+    - title
+    - price
+    type: object
+    properties:
+      id:
+        title: ID
+        type: integer
+        readOnly: true
+      title:
+        title: Название
+        type: string
+        maxLength: 200
+        minLength: 1
+      price:
+        title: Стоимость
+        type: string
+        format: decimal
+  Modul:
+    required:
+    - title
+    - price
+    - length
+    - theme_id
+    type: object
+    properties:
+      id:
+        title: ID
+        type: integer
+        readOnly: true
+      title:
+        title: Название
+        type: string
+        maxLength: 200
+        minLength: 1
+      price:
+        title: Стоимость
+        type: string
+        format: decimal
+      length:
+        title: Время обучения в часах
+        type: integer
+      theme_id:
+        type: array
+        items:
+          $ref: '#/definitions/Theme'
+  Course:
+    required:
+    - title
+    - description
+    - price
+    - modul_id
+    - level_id
+    type: object
+    properties:
+      id:
+        title: ID
+        type: integer
+        readOnly: true
+      title:
+        title: Название
+        type: string
+        maxLength: 200
+        minLength: 1
+      description:
+        title: Описание
+        type: string
+        minLength: 1
+      price:
+        title: Стоимость
+        type: string
+        format: decimal
+      modul_id:
+        type: array
+        items:
+          $ref: '#/definitions/Modul'
+      level_id:
+        $ref: '#/definitions/Level'
+  Pract:
+    required:
+    - title
+    - url
+    - level_id
+    type: object
+    properties:
+      id:
+        title: ID
+        type: integer
+        readOnly: true
+      title:
+        title: Название
+        type: string
+        maxLength: 200
+        minLength: 1
+      url:
+        title: Ссылка
+        type: string
+        format: uri
+        maxLength: 200
+        minLength: 1
+      level_id:
+        $ref: '#/definitions/Level'
+  Links:
+    required:
+    - title
+    - url
+    - level_id
+    type: object
+    properties:
+      id:
+        title: ID
+        type: integer
+        readOnly: true
+      title:
+        title: Название
+        type: string
+        maxLength: 200
+        minLength: 1
+      url:
+        title: Ссылка
+        type: string
+        format: uri
+        maxLength: 200
+        minLength: 1
+      level_id:
+        $ref: '#/definitions/Level'
+  UserCourse:
+    required:
+    - сourse_id
+    - pract_id
+    - links_id
+    type: object
+    properties:
+      id:
+        title: ID
+        type: integer
+        readOnly: true
+      user_id:
+        $ref: '#/definitions/CustomUser'
+      сourse_id:
+        type: array
+        items:
+          $ref: '#/definitions/Course'
+      pract_id:
+        type: array
+        items:
+          $ref: '#/definitions/Pract'
+      links_id:
+        type: array
+        items:
+          $ref: '#/definitions/Links'
+  User:
+    required:
+    - username
+    type: object
+    properties:
+      username:
+        title: Имя пользователя
+        description: Обязательное поле. Не более 150 символов. Только буквы, цифры
+          и символы @/./+/-/_.
+        type: string
+        pattern: ^[\w.@+-]+$
+        maxLength: 150
+        minLength: 1
+      id:
+        title: ID
+        type: integer
+        readOnly: true
+      email:
+        title: Адрес электронной почты
+        type: string
+        format: email
+        readOnly: true
+        minLength: 1
+  UserCreate:
+    required:
+    - username
+    - email
+    - password
+    type: object
+    properties:
+      username:
+        title: Имя пользователя
+        description: Обязательное поле. Не более 150 символов. Только буквы, цифры
+          и символы @/./+/-/_.
+        type: string
+        pattern: ^[\w.@+-]+$
+        maxLength: 150
+        minLength: 1
+      email:
+        title: Адрес электронной почты
+        type: string
+        format: email
+        maxLength: 254
+        minLength: 1
+      id:
+        title: ID
+        type: integer
+        readOnly: true
+      password:
+        title: Password
+        type: string
+        minLength: 1
+  Activation:
+    required:
+    - uid
+    - token
+    type: object
+    properties:
+      uid:
+        title: Uid
+        type: string
+        minLength: 1
+      token:
+        title: Token
+        type: string
+        minLength: 1
+  SendEmailReset:
+    required:
+    - email
+    type: object
+    properties:
+      email:
+        title: Email
+        type: string
+        format: email
+        minLength: 1
+  UsernameResetConfirm:
+    required:
+    - new_email
+    type: object
+    properties:
+      new_email:
+        title: Адрес электронной почты
+        type: string
+        format: email
+        maxLength: 254
+        minLength: 1
+  PasswordResetConfirm:
+    required:
+    - uid
+    - token
+    - new_password
+    type: object
+    properties:
+      uid:
+        title: Uid
+        type: string
+        minLength: 1
+      token:
+        title: Token
+        type: string
+        minLength: 1
+      new_password:
+        title: New password
+        type: string
+        minLength: 1
+  SetUsername:
+    required:
+    - current_password
+    - new_email
+    type: object
+    properties:
+      current_password:
+        title: Current password
+        type: string
+        minLength: 1
+      new_email:
+        title: Адрес электронной почты
+        type: string
+        format: email
+        maxLength: 254
+        minLength: 1
+  SetPassword:
+    required:
+    - new_password
+    - current_password
+    type: object
+    properties:
+      new_password:
+        title: New password
+        type: string
+        minLength: 1
+      current_password:
+        title: Current password
+        type: string
+        minLength: 1
