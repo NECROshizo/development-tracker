@@ -5,7 +5,10 @@ repos:
     - id: check-yaml
     - id: end-of-file-fixer
     - id: trailing-whitespace
+      args: [--chars," "]
     - id: check-merge-conflict
+
+
 
 - repo: https://github.com/astral-sh/ruff-pre-commit
   rev: v0.1.14
@@ -23,12 +26,23 @@ repos:
       entry: poetry export --without-hashes --output infra/requirements.django.txt
       files: ^(pyproject.toml|poetry.lock)$
 
-# - repo: local
-#   hooks:
-#     - id: export-schema-openapi
-#       name: Export schema OpenAPI
-#       language: system
-#       pass_filenames: false
-#       entry: python backend/manage.py spectacular --file docs/schema.yml
-#       # files: (.py)$
-#       types: [python]
+- repo: local
+  hooks:
+    - id: export-schema-openapi
+      name: Export schema OpenAPI
+      language: system
+      pass_filenames: false
+      entry: python backend/manage.py spectacular --file docs/schema.yml
+      # files: (.py)$
+      types: [python]
+
+
+# TODO: интересное решение
+# ci:
+#     autofix_commit_msg: |
+#         ci: auto fixes from pre-commit hooks
+
+#         for more information, see https://pre-commit.ci
+#     autofix_prs: false
+#     autoupdate_commit_msg: 'ci: pre-commit autoupdate'
+#     autoupdate_schedule: monthly

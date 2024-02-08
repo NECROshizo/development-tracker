@@ -24,7 +24,7 @@ exclude = [
 ]
 target-version = "py39"
 line-length = 120
-ignore = ["D"]
+lint.ignore = ["D"]
 
 [tool.ruff.format]
 quote-style = "double"
@@ -38,7 +38,7 @@ djangorestframework = "^3.14.0"
 pillow = "^10.2.0"
 python-dotenv = "^1.0.1"
 djoser = "^2.2.2"
-drf-yasg = "^1.21.7"
+drf-spectacular = "^0.27.1"
 
 [tool.poetry.group.dev.dependencies]
 pre-commit = "^3.6.0"

@@ -8,7 +8,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv("SECRET_KEY", default="secret_key")
 
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", default="127.0.0.1 localhost").split()
 
@@ -20,10 +20,12 @@ INSTALLED_APPS = [
 	"django.contrib.sessions",
 	"django.contrib.messages",
 	"django.contrib.staticfiles",
+	# lib
 	"rest_framework",
 	"rest_framework.authtoken",
 	"djoser",
-	"drf_yasg",
+	"drf_spectacular",
+	# apps
 	"api.apps.ApiConfig",
 	"users.apps.UsersConfig",
 	"course.apps.CourseConfig",
@@ -113,6 +115,7 @@ REST_FRAMEWORK = {
 	"DEFAULT_AUTHENTICATION_CLASSES": [
 		"rest_framework.authentication.TokenAuthentication",
 	],
+	"DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 
 DJOSER = {
@@ -122,4 +125,14 @@ DJOSER = {
 		"user": ("rest_framework.permissions.IsAuthenticated",),
 		"user_list": ("rest_framework.permissions.AllowAny",),
 	},
+}
+
+SPECTACULAR_SETTINGS = {
+	"TITLE": "Development tracker API",
+	"DESCRIPTION": "Документация для проекта Трекер развития",
+	"VERSION": "1.0.0",
+	"LICENSE": {"name": "BSD License"},
+	"CONTACT": {"email": "admin@admin.com"},
+	# "PERMISSIONS": ['rest_framework.permissions.AllowAny',], # TODO: для кого
+	# 'SERVE_INCLUDE_SCHEMA': False,
 }

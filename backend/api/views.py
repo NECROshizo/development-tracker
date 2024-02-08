@@ -1,10 +1,30 @@
-from drf_yasg.utils import swagger_auto_schema
+from drf_spectacular.utils import extend_schema, extend_schema_view
 from rest_framework import viewsets
 
 from .serializers import UserCourseSerializer, UserLevelSerializer
 from course.models import UserCourse, UserLevel
 
 
+@extend_schema_view(
+	list=extend_schema(
+		summary="Список навыков",
+		description="Выводит параметры профиля пользователя.",
+		responses={200: UserLevelSerializer(many=True)},
+		tags=("Tracker",),
+	),
+	retrieve=extend_schema(
+		summary="Навыки конкретного пользователя",
+		description="Позволяет отобразить список навыков для пользователя трека",
+		responses={200: UserLevelSerializer()},
+		tags=("Tracker",),
+	),
+	partial_update=extend_schema(
+		summary="Редактирование парамеров пользователя",
+		description="Позваляет отредактировать параметры: профессия и грейт.",
+		responses={200: UserLevelSerializer(many=True)},
+		tags=("Tracker",),
+	),
+)
 class TrackerViewSet(viewsets.ModelViewSet):
 	"""Вьюсет трекера развития."""
 
@@ -12,32 +32,22 @@ class TrackerViewSet(viewsets.ModelViewSet):
 	serializer_class = UserLevelSerializer
 	http_method_names = ["get", "patch"]
 
-	@swagger_auto_schema(
-		responses={200: UserLevelSerializer(many=True)},
-		operation_summary="Список навыков пользователя",
-		operation_description=("Выводит параметры профиля пользователя."),
-	)
-	def list(self, request, *args, **kwargs):
-		return super().list(request, *args, **kwargs)
 
-	@swagger_auto_schema(
-		responses={200: UserLevelSerializer(many=True)},
-		operation_summary="Редактирование парамеров пользователя",
-		operation_description=("Позваляет отредактировать параметры: профессия и грейт"),
-	)
-	def partial_update(self, request, *args, **kwargs):
-		return super().partial_update(request, *args, **kwargs)
-
-
+@extend_schema_view(
+	list=extend_schema(
+		summary="Список рекомендаций для пользователя.",
+		description="Выводит список рекомендаций для пользователя трека.",
+		responses={200: UserCourseSerializer(many=True)},
+		tags=("Tracker",),
+	),
+	retrieve=extend_schema(
+		summary="Рекомендованный навык конкретного пользователя.",
+		description="Позволяет отобразить список навыков для конкретного пользователя трека.",
+		responses={200: UserLevelSerializer()},
+		tags=("Tracker",),
+	),
+)
 class RecommendationsViewSet(viewsets.ModelViewSet):
 	queryset = UserCourse.objects.all()
 	serializer_class = UserCourseSerializer
 	http_method_names = ["get"]
-
-	@swagger_auto_schema(
-		responses={200: UserCourseSerializer(many=True)},
-		operation_summary="Список рекомендаций для пользователя",
-		operation_description=("Выводит рекомендации для пользователя трекера."),
-	)
-	def list(self, request, *args, **kwargs):
-		return super().list(request, *args, **kwargs)
