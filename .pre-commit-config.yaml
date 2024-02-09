@@ -8,8 +8,6 @@ repos:
       args: [--chars," "]
     - id: check-merge-conflict
 
-
-
 - repo: https://github.com/astral-sh/ruff-pre-commit
   rev: v0.1.14
   hooks:
@@ -25,9 +23,6 @@ repos:
       pass_filenames: false
       entry: poetry export --without-hashes --output infra/requirements.django.txt
       files: ^(pyproject.toml|poetry.lock)$
-
-- repo: local
-  hooks:
     - id: export-schema-openapi
       name: Export schema OpenAPI
       language: system
@@ -35,6 +30,13 @@ repos:
       entry: python backend/manage.py spectacular --file docs/schema.yml
       # files: (.py)$
       types: [python]
+    - id: pytest
+      name: Check pytest
+      entry: pytest backend/test/
+      language: system
+      pass_filenames: false
+      types: [python]
+      # stages: [commit, push]
 
 
 # TODO: интересное решение
